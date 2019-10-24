@@ -1,7 +1,8 @@
 <?php
+
 namespace controllers;
 
-class NotFound extends \abstracts\Controller
+class Forbidden extends \abstracts\Controller
 {
     /**
      * @inheritDoc

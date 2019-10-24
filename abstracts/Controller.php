@@ -28,4 +28,20 @@ abstract class Controller
      * @return \system\Render
      */
     abstract public function execute();
+
+    protected function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * список ролей которым разрешен доступ к этому котролеру
+     * @return array
+     */
+    public function accessRoles()
+    {
+        return [
+            \system\Rbac::ROLE_GUEST,
+        ];
+    }
 }

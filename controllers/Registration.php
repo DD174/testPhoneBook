@@ -1,31 +1,26 @@
 <?php
 namespace controllers;
 
-use system\Request;
-
-class Registration implements \interfaces\Controller
+class Registration extends \abstracts\Controller
 {
-    /**
-     * @var Request
-     */
-    private $request;
-
-    public function __construct(Request $request = null)
-    {
-        $this->request = $request ?: new Request();
-    }
-
     public function execute()
     {
-        $user = null;
-        if ($this->request->isPost()) {
-            $this->createUser();
+        $user = null; // TODO для работы с формой красивее сделать отдельный класс типа UserForm и в нем проверить капчу
+        $errors = [];
+        if ($this->getRequest()->isPost()) {
+            $userService = new \models\user\UserService();
+            try {
+                $user = $userService->createUser($this->getRequest()->getPost());
+            } catch (\system\DomainException $e) {
+                $errors[] = $e->getMessage();
+            }
         }
 
         return new \system\Render(
             'registration/form.php',
             [
                 'user' => $user,
+                'errors' => $errors,
             ]
         );
     }
