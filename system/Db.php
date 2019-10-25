@@ -16,7 +16,7 @@ class Db
     /**
      * @var self
      */
-    private static $_instance;
+    private static $instance;
 
     /**
      * без возможности наследовать
@@ -52,10 +52,10 @@ class Db
      */
     public static function getInstance()
     {
-        if (self::$_instance === null) {
-            self::$_instance = new self();
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
-        return self::$_instance;
+        return self::$instance;
     }
 
     /**
@@ -74,7 +74,7 @@ class Db
     /**
      * @param $sql
      * @param array $params
-     * @return array
+     * @return array|null
      * @throws \Exception
      */
     public function fetch($sql, array $params)
@@ -83,7 +83,11 @@ class Db
         $sth->execute($params ?: null);
         $res = $sth->fetch(PDO::FETCH_ASSOC);
         if ($res === false) {
-            throw new \Exception($sth->errorCode());
+            $errorInfo = $sth->errorInfo();
+            if (array_key_exists(1, $errorInfo) && $errorInfo[1] === null) {
+                return null;
+            }
+            throw new \Exception(implode(' ', $sth->errorInfo()));
         }
 
         return $res;

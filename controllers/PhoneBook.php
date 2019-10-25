@@ -7,10 +7,14 @@ namespace controllers;
 class PhoneBook extends \abstracts\Controller
 {
     /**
-     * @return \system\Render
+     * @inheritDoc
      */
     public function execute()
     {
-        // TODO: Implement execute() method.
+        $this->getResponse()->setContent(
+            (new \system\Render('phoneBook/index.php'))->getContent()
+        );
+
+        return $this->getResponse();
     }
 }

@@ -11,16 +11,10 @@ if ($user) {
     <?php
     return;
 }
-
-if ($errors) {
-    ?>
-    <div class="alert alert-danger" role="alert">
-        <?= implode('<br>', $errors) ?>
-    </div>
-    <?php
-}
-
 ?>
+
+<?= \helpers\HtmlHelper::getErrorAlert($errors) ?>
+
 <form action="" method="post">
     <div class="form-group">
         <label for="login">Login</label>

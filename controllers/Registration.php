@@ -6,6 +6,16 @@ namespace controllers;
  */
 class Registration extends \abstracts\Controller
 {
+    /**
+     * @inheritDoc
+     */
+    public function accessRoles()
+    {
+        return [
+            \system\Rbac::ROLE_GUEST,
+        ];
+    }
+
     public function execute()
     {
         $user = null; // TODO для работы с формой красивее сделать отдельный класс типа UserForm и в нем проверить капчу

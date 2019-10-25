@@ -14,7 +14,6 @@ switch ($action) {
     case 'registration':
         $controller = new \controllers\Registration();
         break;
-
     default:
         $controller = new \controllers\NotFound();
 }
@@ -24,9 +23,26 @@ if (!in_array(\system\Rbac::getUserRole(), $controller->accessRoles(), true)) {
     $controller = new \controllers\Forbidden();
 }
 
-$render = new \system\Render(
-    'layouts/main.php',
-    ['content' => $controller->execute()->getContent()]
-);
+// TODO: есть смысл ввести режим PROD|DEBUG, чтобы скрывать или показывать ошибки
+//try {
+$response = $controller->execute();
+//} catch (Exception $e) {
+//    $response = new \system\Response();
+//    $response->setContent('ошибка: ' . htmlspecialchars($e->getMessage()));
+//}
 
-echo $render->getContent();
+switch (true) {
+    case $response->isRedirect():
+        header('Location: ' . $response->getRedirectUrl(), true, 302);
+        break;
+    case $response->isHtml():
+        $render = new \system\Render(
+            'layouts/main.php',
+            ['content' => $response->getContent()]
+        );
+
+        echo $render->getContent();
+        break;
+    default:
+        echo 'упс';
+}

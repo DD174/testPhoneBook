@@ -14,18 +14,24 @@ abstract class Controller
      * @var Request
      */
     private $request;
+    /**
+     * @var \system\Response
+     */
+    private $response;
 
     /**
      * Controller constructor.
      * @param Request|null $request
+     * @param \system\Response|null $response
      */
-    public function __construct(Request $request = null)
+    public function __construct(Request $request = null, \system\Response $response = null)
     {
         $this->request = $request ?: new Request();
+        $this->response = $response ?: new \system\Response();
     }
 
     /**
-     * @return \system\Render
+     * @return \system\Response
      */
     abstract public function execute();
 
@@ -35,13 +41,21 @@ abstract class Controller
     }
 
     /**
+     * @return \system\Response
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
+
+    /**
      * список ролей которым разрешен доступ к этому котролеру
      * @return array
      */
     public function accessRoles()
     {
         return [
-            \system\Rbac::ROLE_GUEST,
+            \system\Rbac::ROLE_USER,
         ];
     }
 }
