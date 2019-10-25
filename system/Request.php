@@ -27,11 +27,19 @@ class Request
     }
 
     /**
-     * @return array
+     * @param string|null $key
+     * @return mixed
      */
-    public function getPost()
+    public function getPost($key = null)
     {
-        return $this->post ?: [];
+        if ($key === null) {
+            return $this->post ?: [];
+        }
+        if (isset($this->post[$key])) {
+            return $this->post[$key];
+        }
+
+        return null;
     }
 
     /**

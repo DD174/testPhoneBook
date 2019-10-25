@@ -119,14 +119,13 @@ class Db
         try {
             $this->connect->beginTransaction();
             $this->execute($sql, $params);
+            $res = $this->connect->lastInsertId();
             $this->connect->commit();
 
-            return $this->connect->lastInsertId();
+            return $res;
         } catch(PDOException $e) {
             $this->connect->rollback();
             throw new DomainException($e->getMessage());
         }
-
-        return false;
     }
 }
