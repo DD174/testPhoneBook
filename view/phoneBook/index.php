@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * @var \models\phone\Phone[] $phones
  */
 ?>
 <button type="button" class="btn btn-success phone-add">
@@ -22,6 +22,7 @@
 <table class="table table-bordered">
     <thead>
     <tr>
+        <th scope="col">ID</th>
         <th scope="col">
             Имя
             <i class="fas fa-sort-amount-up-alt"></i>
@@ -32,23 +33,29 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <th>1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-    </tr>
-    <tr>
-        <th>2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-    </tr>
-    <tr>
-        <th>3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-    </tr>
+    <?php
+    foreach ($phones as $phone) {
+        ?>
+        <tr>
+            <td>
+                <?= htmlspecialchars($phone->id) ?> /
+                <button type="button" class="btn btn-light btn-sm phone-edit" data-phone_id="<?= htmlspecialchars($phone->id) ?>">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <!--
+                <button type="button" class="btn btn-light btn-sm phone-delete" data-phone_id="<?/*= htmlspecialchars($phone->id) */?>">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+                -->
+            </td>
+            <th><?= htmlspecialchars($phone->name . ' ' . $phone->surname) ?></th>
+            <td><?= htmlspecialchars($phone->phone) ?></td>
+            <td><?= htmlspecialchars($phone->email ?: '-') ?></td>
+            <td>...</td>
+        </tr>
+        <?php
+    }
+    ?>
     </tbody>
 </table>
 

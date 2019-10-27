@@ -87,4 +87,65 @@ class PhoneRepository
 
         return null;
     }
+
+    /**
+     * @param $userId
+     * @return array
+     * @throws \Exception
+     */
+    public function getPhonesByUserId($userId)
+    {
+        $models = [];
+        $rows = $this->db->fetchAll('SELECT '
+            . self::FIELD_ID . ', '
+            . self::FIELD_USER_ID . ', '
+            . self::FIELD_NAME . ', '
+            . self::FIELD_SURNAME . ', '
+            . self::FIELD_PHONE . ', '
+            . self::FIELD_EMAIL . '
+             FROM ' . self::TABLE_NAME . ' WHERE ' . self::FIELD_USER_ID . ' = :user_id', [':user_id' => $userId]);
+        if ($rows) {
+            foreach ($rows as $row) {
+                $models[] = new Phone(
+                    $row[self::FIELD_ID],
+                    $row[self::FIELD_USER_ID],
+                    $row[self::FIELD_NAME],
+                    $row[self::FIELD_SURNAME],
+                    $row[self::FIELD_PHONE],
+                    $row[self::FIELD_EMAIL]
+                );
+            }
+        }
+
+        return $models;
+    }
+
+    /**
+     * @param Phone $phone
+     * @return Phone|null
+     * @throws \system\DomainException
+     */
+    public function update(Phone $phone)
+    {
+        $res = $this->db->update(
+            'UPDATE ' . self::TABLE_NAME . ' SET '
+            . self::FIELD_NAME . ' = :name, '
+            . self::FIELD_SURNAME . ' = :surname, '
+            . self::FIELD_PHONE . ' = :phone, '
+            . self::FIELD_EMAIL . ' = :email
+            WHERE id = :id',
+            [
+                ':name' => $phone->name,
+                ':surname' => $phone->surname,
+                ':phone' => $phone->phone,
+                ':email' => $phone->email,
+                ':id' => $phone->id,
+            ]
+        );
+        if ($res === false) {
+            throw new \system\DomainException('Не удалось обновить запись в БД');
+        }
+
+        return $phone;
+    }
 }

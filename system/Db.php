@@ -94,6 +94,28 @@ class Db
     }
 
     /**
+     * @param $sql
+     * @param array $params
+     * @return array
+     * @throws \Exception
+     */
+    public function fetchAll($sql, array $params)
+    {
+        $sth = $this->prepare($sql);
+        $sth->execute($params ?: null);
+        $res = $sth->fetchAll(PDO::FETCH_ASSOC);
+        if ($res === false) {
+            $errorInfo = $sth->errorInfo();
+            if (array_key_exists(1, $errorInfo) && $errorInfo[1] === null) {
+                return [];
+            }
+            throw new \Exception(implode(' ', $sth->errorInfo()));
+        }
+
+        return $res;
+    }
+
+    /**
      * @param string $sql
      * @param array $params
      * @return bool
@@ -111,7 +133,6 @@ class Db
     }
 
     /**
-     * TODO: ради приличия (будущего рефакторинга) для разных операций сделал свои методы, по факту все они вызывают выполнение переданного запроса
      * @param string $sql
      * @param array $params
      * @return int|false
@@ -127,6 +148,27 @@ class Db
             $this->connect->commit();
 
             return $res;
+        } catch(PDOException $e) {
+            $this->connect->rollback();
+            throw new DomainException($e->getMessage());
+        }
+    }
+
+    /**
+     * @param $sql
+     * @param array $params
+     * @return bool
+     * @throws DomainException
+     */
+    public function update($sql, array $params)
+    {
+        $this->init();
+        try {
+            $this->connect->beginTransaction();
+            $this->execute($sql, $params);
+            $this->connect->commit();
+
+            return true;
         } catch(PDOException $e) {
             $this->connect->rollback();
             throw new DomainException($e->getMessage());

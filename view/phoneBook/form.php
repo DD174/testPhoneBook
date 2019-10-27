@@ -8,13 +8,12 @@
  */
 ?>
 
-<form id="phone-form" action="#" method="post">
-    <input type="hidden" id="phone-id" value="">
+<form id="phone-form" action="/?action=phone-edit&id=<?= htmlspecialchars($phoneForm->id) ?>" method="post">
     <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">
             <?php
             if ($phoneForm->id) {
-                ?> Редактирование номера <?= htmlspecialchars($phoneForm->getOriginPhoneModel()->phone) ?><?php
+                ?> Редактирование номера <b><?= htmlspecialchars($phoneForm->getOriginPhoneModel()->phone) ?></b><?php
             } else {
                 ?>Добавление номера<?php
             }
