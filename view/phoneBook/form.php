@@ -10,7 +10,7 @@
 
 <form id="phone-form" action="/?action=phone-edit&id=<?= htmlspecialchars($phoneForm->id) ?>" method="post">
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">
+        <h5 class="modal-title">
             <?php
             if ($phoneForm->id) {
                 ?> Редактирование номера <b><?= htmlspecialchars($phoneForm->getOriginPhoneModel()->phone) ?></b><?php

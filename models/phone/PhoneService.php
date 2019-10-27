@@ -74,4 +74,20 @@ class PhoneService
 
         return true;
     }
+
+    /**
+     * Получение телефонного номера с проверкой прав доступа
+     * @param int $id
+     * @return Phone|null
+     * @throws \Exception
+     */
+    public function getPhoneById($id)
+    {
+        $phone =  $this->phoneRepository->getPhoneById($id);
+        if ($phone && $phone->userId === \system\Rbac::getUser()->id) {
+            return $phone;
+        }
+
+        return null;
+    }
 }

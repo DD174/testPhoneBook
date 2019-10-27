@@ -14,6 +14,9 @@ switch ($action) {
     case 'phone-edit':
         $controller = new \controllers\PhoneBookEdit();
         break;
+    case 'phone-view':
+        $controller = new \controllers\PhoneBookView();
+        break;
     case 'registration':
         $controller = new \controllers\Registration();
         break;

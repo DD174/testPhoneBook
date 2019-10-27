@@ -44,7 +44,7 @@ class Request
 
     /**
      * @param string|null $key
-     * @return array
+     * @return mixed
      */
     public function getGet($key = null)
     {

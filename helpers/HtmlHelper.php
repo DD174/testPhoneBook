@@ -87,4 +87,27 @@ class HtmlHelper
 
         return '?' . implode('&', $res);
     }
+
+    /**
+     * Пишет номер прописью.
+     * Если номер начинается с "0", то напишет "ноль двести девять"
+     * @param $number
+     * @return string
+     */
+    public static function phoneNumberToWords($number)
+    {
+        if (preg_match('/^(?<zero>0*)(?<other>\d*)$/', $number, $matches) !== 1) {
+            return '';
+        }
+        $str = '';
+        if ($matches['zero']) {
+            $str .= str_replace('0', 'ноль ', $matches['zero']);
+        }
+        if ($matches['other']) {
+            $nf = new \NumberFormatter('ru', \NumberFormatter::SPELLOUT);
+            $str .= $nf->format($matches['other']);
+        }
+
+        return trim($str);
+    }
 }

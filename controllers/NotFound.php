@@ -8,8 +8,13 @@ class NotFound extends \abstracts\Controller
      */
     public function execute()
     {
-        return new \system\Render(
-            '404.php'
-        );
+        $this->getResponse()
+            ->setContent(
+                (new \system\Render(
+                    '404.php'
+                ))->getContent()
+            );
+
+        return $this->getResponse();
     }
 }

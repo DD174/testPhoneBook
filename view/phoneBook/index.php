@@ -49,11 +49,9 @@ use models\phone\Phone; ?>
                 <button type="button" class="btn btn-light btn-sm phone-edit" data-phone_id="<?= htmlspecialchars($phone->id) ?>">
                     <i class="fas fa-edit"></i>
                 </button>
-                <!--
-                <button type="button" class="btn btn-light btn-sm phone-delete" data-phone_id="<?/*= htmlspecialchars($phone->id) */?>">
-                    <i class="fas fa-trash-alt"></i>
+                <button type="button" class="btn btn-light btn-sm phone-view" data-phone_id="<?= htmlspecialchars($phone->id) ?>">
+                    <i class="fas fa-eye"></i>
                 </button>
-                -->
             </td>
             <th><?= htmlspecialchars($phone->name) ?></th>
             <th><?= htmlspecialchars($phone->surname ?: '-') ?></th>
