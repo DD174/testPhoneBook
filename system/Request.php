@@ -43,11 +43,19 @@ class Request
     }
 
     /**
+     * @param string|null $key
      * @return array
      */
-    public function getGet()
+    public function getGet($key = null)
     {
-        return $this->get ?: [];
+        if ($key === null) {
+            return $this->get ?: [];
+        }
+        if (isset($this->get[$key])) {
+            return $this->get[$key];
+        }
+
+        return null;
     }
 
     /**

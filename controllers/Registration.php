@@ -36,13 +36,16 @@ class Registration extends \abstracts\Controller
 
         $captcha->generate();
 
-        return new \system\Render(
-            'registration/form.php',
-            [
-                'user' => $user,
-                'errors' => $errors,
-                'captcha' => $captcha,
-            ]
+        $this->getResponse()->setContent(
+            (new \system\Render(
+                'registration/form.php',
+                [
+                    'user' => $user,
+                    'errors' => $errors,
+                    'captcha' => $captcha,
+                ]
+            ))->getContent()
         );
+        return $this->getResponse();
     }
 }

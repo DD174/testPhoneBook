@@ -11,6 +11,9 @@ switch ($action) {
     case '':
         $controller = new \controllers\PhoneBook();
         break;
+    case 'phone-edit':
+        $controller = new \controllers\PhoneBookEdit();
+        break;
     case 'registration':
         $controller = new \controllers\Registration();
         break;
@@ -36,12 +39,16 @@ switch (true) {
         header('Location: ' . $response->getRedirectUrl(), true, 302);
         break;
     case $response->isHtml():
-        $render = new \system\Render(
-            'layouts/main.php',
-            ['content' => $response->getContent()]
-        );
+        if ($layout = $response->getLayout()) {
+            $render = new \system\Render(
+                'layouts/' . $layout . '.php',
+                ['content' => $response->getContent()]
+            );
 
-        echo $render->getContent();
+            echo $render->getContent();
+        } else {
+            echo $response->getContent();
+        }
         break;
     default:
         echo 'упс';

@@ -12,6 +12,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/fontawesome/css/all.min.css">
 <style type="text/css">
     body {
         padding-top: 5rem;
@@ -44,7 +45,8 @@
     <?= $content ?>
 
 </main>
-<script src="/assets/jquery/jquery-3.4.1.slim.min.js"></script>
+<script src="/assets/jquery/jquery-3.4.1.min.js"></script>
 <script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/phone.js"></script>
 </body>
 </html>

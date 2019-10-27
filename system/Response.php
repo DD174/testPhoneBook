@@ -12,6 +12,7 @@ class Response
     private $type = self::TYPE_HTML;
     private $content;
     private $redirectUrl;
+    private $layout = 'main';
 
     /**
      * @param string $type
@@ -41,6 +42,26 @@ class Response
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * если, false, то значит layout не используется
+     * @param string|false $layout
+     * @return Response
+     */
+    public function setLayout($layout)
+    {
+        $this->layout = $layout;
+
+        return $this;
+    }
+
+    /**
+     * @return string|false
+     */
+    public function getLayout()
+    {
+        return $this->layout;
     }
 
     /**
