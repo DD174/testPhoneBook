@@ -41,4 +41,50 @@ class HtmlHelper
         }
         return '';
     }
+
+    /**
+     * Вернет html ссылки с параметрами сортировки с указанным параметром
+     * @param $name - отображаемое имя
+     * @param $key - ключ
+     * @param null $order - направление сортировки, если null, то сортировки по этому полю нет
+     * @return string
+     */
+    public static function getLinkSort($name, $key, $order = null)
+    {
+        if ($order === \system\DataProvider::ASC) {
+            $param = '-';
+            $icon = '<i class="fas fa-sort-alpha-down"></i>';
+        } else {
+            $param = '';
+            $icon = '<i class="fas fa-sort-alpha-down-alt"></i>';
+        }
+        if ($order === null) {
+            $icon = '';
+        }
+        return '<a href="' . self::getCurrentUrl('sort', $param . $key) . '">'
+            . htmlspecialchars($name)
+            . $icon
+            . '</a>';
+    }
+
+    /**
+     * Вернет ссылку на текущую страницу с добавлением указанного параметра
+     * @param string|null $key
+     * @param null $value
+     * @return string
+     */
+    public static function getCurrentUrl($key = null, $value = null)
+    {
+        // TODO: нужно заменить _GET на класс Request, но для начало надо это класс переделать на синглтон ;(
+        $get = (array)$_GET;
+        if ($key !== null) {
+            $get[$key] = $value;
+        }
+        $res = [];
+        foreach ($get as $k => $v) {
+            $res[] = $k . '=' . urlencode($v);
+        }
+
+        return '?' . implode('&', $res);
+    }
 }

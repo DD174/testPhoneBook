@@ -6,6 +6,11 @@ namespace models\phone;
  */
 class Phone
 {
+    // константы из-за того, что через веб передаются эти поля для сортировки списка телефонов. Так себе решение, 
+    // но так, хотя бы не потеряются эти поля , если нужно будет их удалить или переименовать
+    const FIELD_NAME = 'name';
+    const FIELD_SURNAME = 'surname';
+
     public $id;
     public $userId;
     public $name;

@@ -30,12 +30,14 @@ class PhoneBook extends \abstracts\Controller
     public function execute()
     {
         $phones = $this->phoneRepository->getPhonesByUserId(\system\Rbac::getUser()->id);
+        $dataProvider = new \system\DataProvider($phones);
+        $dataProvider->setSort($this->getRequest()->getGet('sort'));
 
         $this->getResponse()->setContent(
             (new \system\Render(
                 'phoneBook/index.php',
                 [
-                    'phones' => $phones,
+                    'dataProvider' => $dataProvider
                 ]
             ))->getContent()
         );

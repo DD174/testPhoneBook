@@ -1,8 +1,13 @@
 <?php
 /**
- * @var \models\phone\Phone[] $phones
+ * Вьюшка списка телефонной книги
+ *
+ * @var \system\DataProvider $dataProvider
  */
-?>
+
+$phones = $dataProvider->getItems();
+
+use models\phone\Phone; ?>
 <button type="button" class="btn btn-success phone-add">
     Добавить телефон
 </button>
@@ -24,8 +29,10 @@
     <tr>
         <th scope="col">ID</th>
         <th scope="col">
-            Имя
-            <i class="fas fa-sort-amount-up-alt"></i>
+            <?= \helpers\HtmlHelper::getLinkSort('Имя', Phone::FIELD_NAME, $dataProvider->getCurrentSortForKey(Phone::FIELD_NAME)) ?>
+        </th>
+        <th scope="col">
+            <?= \helpers\HtmlHelper::getLinkSort('Фамилия', Phone::FIELD_SURNAME, $dataProvider->getCurrentSortForKey(Phone::FIELD_SURNAME)) ?>
         </th>
         <th scope="col">Телефон</th>
         <th scope="col">email</th>
@@ -48,7 +55,8 @@
                 </button>
                 -->
             </td>
-            <th><?= htmlspecialchars($phone->name . ' ' . $phone->surname) ?></th>
+            <th><?= htmlspecialchars($phone->name) ?></th>
+            <th><?= htmlspecialchars($phone->surname ?: '-') ?></th>
             <td><?= htmlspecialchars($phone->phone) ?></td>
             <td><?= htmlspecialchars($phone->email ?: '-') ?></td>
             <td>...</td>
