@@ -34,7 +34,7 @@ class Db
     }
 
     /**
-     *
+     * Установит соединение с БД, если оно еще не установлено
      */
     private function init()
     {
@@ -44,6 +44,8 @@ class Db
             } catch (PDOException $e) {
                 die($e->getMessage());
             }
+            // TODO вынести в конфиг.
+            $this->connect->exec('set names utf8');
         }
     }
 

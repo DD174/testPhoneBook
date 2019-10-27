@@ -20,6 +20,9 @@ switch ($action) {
     case 'registration':
         $controller = new \controllers\Registration();
         break;
+    case 'logout':
+        $controller = new \controllers\Logout();
+        break;
     default:
         $controller = new \controllers\NotFound();
 }

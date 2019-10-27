@@ -42,4 +42,16 @@ class Session
 
         return $_SESSION[$name];
     }
+
+    /**
+     * Удалить значение из сессии
+     * @param string $name
+     */
+    public static function delSessionValue($name)
+    {
+        self::init();
+        if (isset($_SESSION[$name])) {
+            unset($_SESSION[$name]);
+        }
+    }
 }

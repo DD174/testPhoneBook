@@ -26,6 +26,9 @@ class Registration extends \abstracts\Controller
                 $userService = new \models\user\UserService();
                 try {
                     $user = $userService->createUser($this->getRequest()->getPost());
+                    if (\system\Rbac::authorization($user, $user->password)) {
+                        $this->getResponse()->setRedirect('/');
+                    }
                 } catch (\system\DomainException $e) {
                     $errors[] = $e->getMessage();
                 }

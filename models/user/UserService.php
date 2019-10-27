@@ -49,16 +49,16 @@ class UserService
      */
     private function checkUser()
     {
-        if (preg_match('/^[a-zA-Z0-9]+$/', $this->user->login) !== 1) {
+        if (preg_match('/^[a-zA-Z0-9]+$/u', $this->user->login) !== 1) {
             throw new DomainException('Логин должен быть только из английских букв или цифр');
         }
 
         // TODO: можно написать одним патерном, но давно с регекспами не работал - не стал тратить время на воспоминания
-        if (preg_match('/[a-zA-Z]+/', $this->user->password) !== 1 || preg_match('/\d+/', $this->user->password) !== 1) {
+        if (preg_match('/[a-zA-Z]+/u', $this->user->password) !== 1 || preg_match('/\d+/', $this->user->password) !== 1) {
             throw new DomainException('Пароль должен содержать и цифры, и буквы');
         }
 
-        if (preg_match('/.+@.+\..+/i', $this->user->email) !== 1) {
+        if (preg_match('/.+@.+\..+/iu', $this->user->email) !== 1) {
             throw new DomainException('Укажите корректный email');
         }
 

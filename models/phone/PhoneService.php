@@ -62,13 +62,13 @@ class PhoneService
     private function check()
     {
         // в номере сохраняем только числа. Формат номера не важен.
-        $this->phone->phone = preg_replace('/[^0-9]/', '', $this->phone->phone);
+        $this->phone->phone = preg_replace('/[^0-9]/', '', trim($this->phone->phone));
 
-        if (preg_match('/^[\w\s\-]+$/i', $this->phone->name) !== 1) {
+        if (preg_match('/^[\w\s\-]+$/iu', $this->phone->name) !== 1) {
             throw new DomainException('Имя может содержать только буквы, цифры, пробелы');
         }
 
-        if ($this->phone->email && preg_match('/.+@.+\..+/i', $this->phone->email) !== 1) {
+        if ($this->phone->email && preg_match('/.+@.+\..+/iu', $this->phone->email) !== 1) {
             throw new DomainException('Укажите корректный email');
         }
 

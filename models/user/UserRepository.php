@@ -43,12 +43,13 @@ class UserRepository
      */
     public function getUserById($id)
     {
-        $row = $this->db->fetch('SELECT id, login, email FROM user WHERE id = :id', [':id' => $id]);
+        $row = $this->db->fetch('SELECT id, login, email, password FROM user WHERE id = :id', [':id' => $id]);
         if ($row) {
             return new User(
                 $row['id'],
                 $row['login'],
-                $row['email']
+                $row['email'],
+                $row['password']
             );
         }
 

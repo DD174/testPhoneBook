@@ -100,7 +100,7 @@ class HtmlHelper
             return '';
         }
         $str = '';
-        if ($matches['zero']) {
+        if ($matches['zero'] !== '') {
             $str .= str_replace('0', 'ноль ', $matches['zero']);
         }
         if ($matches['other']) {

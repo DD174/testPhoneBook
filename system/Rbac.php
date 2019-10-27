@@ -65,4 +65,12 @@ class Rbac
         }
         return false;
     }
+
+    /**
+     *
+     */
+    public static function logout()
+    {
+        Session::delSessionValue(self::SESSION_KEY_AUTHORIZED_USER_ID);
+    }
 }

@@ -36,6 +36,9 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/?action=registration">Registration</a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/?action=logout"><span class="fas fa-sign-out-alt">&nbsp;</span>Logout</a>
+            </li>
         </ul>
     </div>
 </nav>
