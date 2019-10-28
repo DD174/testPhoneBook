@@ -5,6 +5,7 @@
  * @var \system\DataProvider $dataProvider
  */
 
+/** @var Phone[] $phones */
 $phones = $dataProvider->getItems();
 
 use models\phone\Phone; ?>
@@ -57,7 +58,17 @@ use models\phone\Phone; ?>
             <th><?= htmlspecialchars($phone->surname ?: '-') ?></th>
             <td><?= htmlspecialchars($phone->phone) ?></td>
             <td><?= htmlspecialchars($phone->email ?: '-') ?></td>
-            <td>...</td>
+            <td>
+                <?php
+                if ($phone->avatar) {
+                    ?>
+                    <a href="<?= htmlspecialchars($phone->avatar) ?>" target="_blank">
+                        <img src="<?= htmlspecialchars($phone->avatar) ?>" alt="Avatar" class="img-thumbnail">
+                    </a>
+                    <?php
+                }
+                ?>
+            </td>
         </tr>
         <?php
     }

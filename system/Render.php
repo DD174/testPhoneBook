@@ -21,7 +21,7 @@ class Render
         extract($params, EXTR_OVERWRITE);
         try {
             /** @noinspection PhpIncludeInspection */
-            require VIEW_PATCH . '/' . $file;
+            require VIEW_PATH . '/' . $file;
             $this->content = ob_get_clean();
         } catch (\Exception $e) {
             $this->content = $e->getMessage();

@@ -58,6 +58,9 @@ class PhoneBookEdit extends \abstracts\Controller
 
         if ($this->getRequest()->isPost()) {
             $phoneForm->load($this->getRequest()->getPost());
+            if ($file = $this->getRequest()->getFile($phoneForm::FIELD_AVATAR)) {
+                $phoneForm->setAvatar($file);
+            }
             try {
                 $phone = $this->phoneService->createOrUpdatePhone($phoneForm);
                 $phoneForm = new PhoneForm($phone);

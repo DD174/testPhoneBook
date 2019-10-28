@@ -48,7 +48,15 @@ if (!$phone) {
         </tr>
         <tr>
             <td>Картинка</td>
-            <th scope="row">2</th>
+            <th scope="row">
+                <?php
+                if ($phone->avatar) {
+                    ?>
+                    <img src="<?= htmlspecialchars($phone->avatar) ?>" alt="Avatar" class="img-thumbnail">
+                    <?php
+                }
+                ?>
+            </th>
         </tr>
         </tbody>
     </table>

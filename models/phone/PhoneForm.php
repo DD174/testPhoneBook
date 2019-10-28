@@ -14,6 +14,7 @@ class PhoneForm
     const FIELD_SURNAME = 'surname';
     const FIELD_PHONE = 'phone';
     const FIELD_EMAIL = 'email';
+    const FIELD_AVATAR = 'avatar';
 
     public $id;
     public $userId;
@@ -21,6 +22,10 @@ class PhoneForm
     public $surname;
     public $phone;
     public $email;
+    /**
+     * @var \system\FileUpload|null
+     */
+    public $avatar;
 
     /**
      * @var Phone|null
@@ -52,6 +57,14 @@ class PhoneForm
         $this->surname = $data[self::FIELD_SURNAME];
         $this->phone = $data[self::FIELD_PHONE];
         $this->email = $data[self::FIELD_EMAIL];
+    }
+
+    /**
+     * @param \system\FileUpload $file
+     */
+    public function setAvatar(\system\FileUpload $file)
+    {
+        $this->avatar = $file;
     }
 
     /**

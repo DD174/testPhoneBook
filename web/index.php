@@ -2,6 +2,8 @@
 
 require_once '../system/main.php';
 
+define('WEB_ROOT', __DIR__);
+
 // "роутинг"... такой, т.к. если писать что-то стоящее, то это отдельная задача...
 $action = '';
 if (isset($_GET['action'])) {

@@ -17,6 +17,12 @@ class Phone
     public $surname;
     public $phone;
     public $email;
+    public $avatar;
+
+    /**
+     * @var \system\FileUpload
+     */
+    public $newAvatar;
 
     /**
      * Phone constructor.
@@ -26,8 +32,9 @@ class Phone
      * @param string|null $surname
      * @param int|null $phone
      * @param string|null $email
+     * @param string $avatar
      */
-    public function __construct($id = null, $userId = null, $name = null, $surname = null, $phone = null, $email = null)
+    public function __construct($id = null, $userId = null, $name = null, $surname = null, $phone = null, $email = null, $avatar = null)
     {
         $this->id = $id;
         $this->userId = $userId;
@@ -35,5 +42,6 @@ class Phone
         $this->surname = $surname;
         $this->phone = $phone;
         $this->email = $email;
+        $this->avatar = $avatar;
     }
 }

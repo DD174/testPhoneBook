@@ -65,4 +65,17 @@ class Request
     {
         return (bool)$this->post;
     }
+
+    /**
+     * @param string $name
+     * @return FileUpload|null
+     */
+    public function getFile($name)
+    {
+        if (isset($_FILES[$name])) {
+            return new FileUpload($_FILES[$name]);
+        }
+
+        return null;
+    }
 }

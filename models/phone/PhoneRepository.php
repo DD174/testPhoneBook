@@ -17,6 +17,7 @@ class PhoneRepository
     const FIELD_SURNAME = 'surname';
     const FIELD_PHONE = 'phone';
     const FIELD_EMAIL = 'email';
+    const FIELD_AVATAR = 'avatar';
 
     /**
      * @var \system\Db
@@ -36,24 +37,34 @@ class PhoneRepository
      */
     public function create(Phone $phone)
     {
+        if ($phone->newAvatar) {
+            $phone->avatar = UPLOAD_PATH . DIRECTORY_SEPARATOR
+                . md5(serialize([$phone->newAvatar, time()])) . '.' . $phone->newAvatar->getFileExtension();
+        }
         $res = $this->db->insert(
             'INSERT INTO ' . self::TABLE_NAME . ' ('
             . self::FIELD_USER_ID . ', '
             . self::FIELD_NAME . ', '
             . self::FIELD_SURNAME . ', '
             . self::FIELD_PHONE . ', '
-            . self::FIELD_EMAIL . '
-            ) VALUES (:user_id, :name, :surname, :phone, :email)',
+            . self::FIELD_EMAIL . ', '
+            . self::FIELD_AVATAR . '
+            ) VALUES (:user_id, :name, :surname, :phone, :email, :avatar)',
             [
                 ':user_id' => $phone->userId,
                 ':name' => $phone->name,
                 ':surname' => $phone->surname,
                 ':phone' => $phone->phone,
                 ':email' => $phone->email,
+                ':avatar' => $phone->avatar,
             ]
         );
         if ($res === false) {
             throw new \system\DomainException('Не удалось создать запись в БД');
+        }
+
+        if ($phone->newAvatar) {
+            $phone->newAvatar->move($phone->avatar);
         }
 
         return $this->getPhoneById($res);
@@ -72,7 +83,8 @@ class PhoneRepository
             . self::FIELD_NAME . ', '
             . self::FIELD_SURNAME . ', '
             . self::FIELD_PHONE . ', '
-            . self::FIELD_EMAIL . '
+            . self::FIELD_EMAIL . ', '
+            . self::FIELD_AVATAR . '
              FROM ' . self::TABLE_NAME . ' WHERE ' . self::FIELD_ID . ' = :id', [':id' => $id]);
         if ($row) {
             return new Phone(
@@ -81,7 +93,8 @@ class PhoneRepository
                 $row[self::FIELD_NAME],
                 $row[self::FIELD_SURNAME],
                 $row[self::FIELD_PHONE],
-                $row[self::FIELD_EMAIL]
+                $row[self::FIELD_EMAIL],
+                $row[self::FIELD_AVATAR]
             );
         }
 
@@ -102,7 +115,8 @@ class PhoneRepository
             . self::FIELD_NAME . ', '
             . self::FIELD_SURNAME . ', '
             . self::FIELD_PHONE . ', '
-            . self::FIELD_EMAIL . '
+            . self::FIELD_EMAIL . ', '
+            . self::FIELD_AVATAR . '
              FROM ' . self::TABLE_NAME . ' WHERE ' . self::FIELD_USER_ID . ' = :user_id', [':user_id' => $userId]);
         if ($rows) {
             foreach ($rows as $row) {
@@ -112,7 +126,8 @@ class PhoneRepository
                     $row[self::FIELD_NAME],
                     $row[self::FIELD_SURNAME],
                     $row[self::FIELD_PHONE],
-                    $row[self::FIELD_EMAIL]
+                    $row[self::FIELD_EMAIL],
+                    $row[self::FIELD_AVATAR]
                 );
             }
         }
@@ -124,21 +139,28 @@ class PhoneRepository
      * @param Phone $phone
      * @return Phone|null
      * @throws \system\DomainException
+     * TODO: реализовать в Db транзацкции, чтобы обернуть в них сохранение записи и перенос файла
      */
     public function update(Phone $phone)
     {
+        if ($phone->newAvatar) {
+            $phone->avatar = UPLOAD_PATH . DIRECTORY_SEPARATOR
+                . md5(serialize([$phone->newAvatar, time()])) . '.' . $phone->newAvatar->getFileExtension();
+        }
         $res = $this->db->update(
             'UPDATE ' . self::TABLE_NAME . ' SET '
             . self::FIELD_NAME . ' = :name, '
             . self::FIELD_SURNAME . ' = :surname, '
             . self::FIELD_PHONE . ' = :phone, '
-            . self::FIELD_EMAIL . ' = :email
+            . self::FIELD_EMAIL . ' = :email, '
+            . self::FIELD_AVATAR . ' = :avatar
             WHERE id = :id',
             [
                 ':name' => $phone->name,
                 ':surname' => $phone->surname,
                 ':phone' => $phone->phone,
                 ':email' => $phone->email,
+                ':avatar' => $phone->avatar,
                 ':id' => $phone->id,
             ]
         );
@@ -146,6 +168,10 @@ class PhoneRepository
             throw new \system\DomainException('Не удалось обновить запись в БД');
         }
 
+        if ($phone->newAvatar) {
+            // TODO: удалять старые файлы :)
+            $phone->newAvatar->move($phone->avatar);
+        }
         return $phone;
     }
 }

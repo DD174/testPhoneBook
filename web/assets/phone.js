@@ -40,11 +40,14 @@ $('.phone-view').on("click", function () {
 $(document).on("submit", '#phone-form', function () {
     let $form = $(this);
     let $content = $('#phone-modal .modal-content');
+    let formData = new FormData($form.get(0));
     $.ajax({
         url: $form.prop('action'),
         type: $form.prop('method'),
         dataType: 'html',
-        data: $form.serialize()
+        processData: false,
+        contentType: false,
+        data: formData
     }).done(function (data, textStatus, jqXHR) {
         if (jqXHR.status === 200) {
             $content.html(data);

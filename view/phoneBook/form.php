@@ -51,6 +51,10 @@
             <input name="<?= $phoneForm::FIELD_EMAIL ?>" value="<?= htmlspecialchars($phoneForm->email) ?>"
                    type="email" class="form-control" id="email" placeholder="Email">
         </div>
+        <div class="form-group">
+            <label for="file">Avatar</label>
+            <input name="<?= $phoneForm::FIELD_AVATAR ?>" type="file" class="form-control-file" id="file">
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

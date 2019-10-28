@@ -42,6 +42,7 @@ class PhoneService
         $this->phone->surname = $phoneForm->surname;
         $this->phone->phone = $phoneForm->phone;
         $this->phone->email = $phoneForm->email;
+        $this->phone->newAvatar = $phoneForm->avatar;
 
         $this->check();
 
@@ -70,6 +71,19 @@ class PhoneService
 
         if ($this->phone->email && preg_match('/.+@.+\..+/iu', $this->phone->email) !== 1) {
             throw new DomainException('Укажите корректный email');
+        }
+
+        if ($this->phone->newAvatar) {
+            if (!is_uploaded_file($this->phone->newAvatar->getTmpName())) {
+                throw new DomainException('Ошибка при загрузке файла: F21');
+            }
+            $type = mime_content_type($this->phone->newAvatar->getTmpName());
+            if ($type !== 'image/jpeg' && $type !== 'image/png') {
+                throw new DomainException('Картинка может быть только jpg, png');
+            }
+            if ($this->phone->newAvatar->getSize() > 2097152) {
+                throw new DomainException('Картинка должна быть меньше 2Mb');
+            }
         }
 
         return true;
