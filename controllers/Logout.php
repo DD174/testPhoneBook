@@ -9,7 +9,7 @@ class Logout extends \abstracts\Controller
      */
     public function accessRoles()
     {
-        return [\system\Rbac::ROLE_GUEST];
+        return [\system\Rbac::ROLE_GUEST, \system\Rbac::ROLE_USER];
     }
 
     /**
